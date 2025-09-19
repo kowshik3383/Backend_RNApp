@@ -37,3 +37,21 @@ export async function verifyOTP(req, res) {
   const token = signToken({ userId: user.id, phone: user.phone });
   res.json({ message: "OTP verified", token });
 }
+export async function resendOTP(req, res) {
+  const { phone } = req.body;
+  if (!phone) return res.status(400).json({ error: "Phone is required" });
+
+  const user = await prisma.user.findUnique({ where: { phone } });
+  if (!user) return res.status(404).json({ error: "User not found" });
+
+  const otp = generateOTP();
+  const expiry = new Date(Date.now() + 5 * 60 * 1000);
+
+  await prisma.user.update({
+    where: { phone },
+    data: { otp, otpExpires: expiry },
+  });
+
+  await sendSMS(phone, otp);
+  res.json({ message: "OTP resent successfully" });
+}
