@@ -1,0 +1,22 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  phone       String   @unique
+  otp         String?
+  otpExpires  DateTime?
+  profilePic  String?   // URL or base64
+  name        String?
+  age         Int?
+  email       String?   @unique  // ✅ Unique only when not null
+  gender      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

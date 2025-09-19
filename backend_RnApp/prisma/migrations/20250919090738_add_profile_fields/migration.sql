@@ -1,0 +1,15 @@
+/*
+  Warnings:
+
+  - A unique constraint covering the columns `[email]` on the table `User` will be added. If there are existing duplicate values, this will fail.
+
+*/
+-- AlterTable
+ALTER TABLE "public"."User" ADD COLUMN     "age" INTEGER,
+ADD COLUMN     "email" TEXT,
+ADD COLUMN     "gender" TEXT,
+ADD COLUMN     "name" TEXT,
+ADD COLUMN     "profilePic" TEXT;
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "public"."User"("email");
