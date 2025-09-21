@@ -8,15 +8,51 @@ generator client {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  phone       String   @unique
+  id          Int          @id @default(autoincrement())
+  phone       String       @unique
   otp         String?
   otpExpires  DateTime?
-  profilePic  String?   // URL or base64
+  profilePic  String?      // URL or base64
   name        String?
   age         Int?
-  email       String?   @unique  // ✅ Unique only when not null
+  email       String?      @unique
   gender      String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  glucoseLogs GlucoseLog[] // A user can have many glucose logs
+weightLogs  WeightLog[]
+Hba1cLog  Hba1cLog[]
+}
+
+model GlucoseLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  value     Int      // glucose value (mg/dL)
+  context   String   // fasting, before_breakfast, after_lunch, random etc.
+  takenAt   DateTime // when reading was taken
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model WeightLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  value     Float    // weight in kg
+  unit      String   @default("kg") // kg/lbs (default kg)
+  takenAt   DateTime // when weight was logged
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Hba1cLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  value     Float
+  unit      String   @default("%")
+  takenAt   DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
