@@ -17,5 +17,8 @@ app.use("/glucose", glucoseRoutes);
 app.use("/weight", weightRoutes);
 app.use("/hba1c", hba1cRoutes);
 
+app.get("/", (req, res) => {
+  res.send(" Server is up and running");
+});
 
 export default app;
