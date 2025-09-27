@@ -22,5 +22,8 @@ app.use("/doctor", doctorRoutes);
 
 app.use("/appointment", appointmentRoutes);
 
+app.get("/", (req, res) => {
+  res.send(" Server is up and running");
+});
 
 export default app;
