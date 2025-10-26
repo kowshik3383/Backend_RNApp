@@ -25,6 +25,8 @@ model User {
   Hba1cLogs   Hba1cLog[]
   doctor      Doctor?
   Appointment Appointment[]
+  mealLogs    MealLog[]      
+
 }
 
 model GlucoseLog {
@@ -106,3 +108,19 @@ model Payment {
 
   appointment Appointment @relation(fields: [appointmentId], references: [id])
 }
+
+model MealLog {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  mealType    String    // breakfast, lunch, dinner, snack
+  description String?   // user can describe what they ate
+  calories    Int?      // optional calorie count
+  carbs       Float?    // in grams
+  protein     Float?    // in grams
+  fat         Float?    // in grams
+  loggedAt    DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+

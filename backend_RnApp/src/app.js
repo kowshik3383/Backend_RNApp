@@ -7,6 +7,7 @@ import weightRoutes from "./routes/weightRoutes.js";
 import hba1cRoutes from "./routes/hba1cRoutes.js"; 
 import doctorRoutes from "./routes/doctorRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
+import mealRoutes from "./routes/mealRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use("/hba1c", hba1cRoutes);
 app.use("/doctor", doctorRoutes);
 
 app.use("/appointment", appointmentRoutes);
+app.use("/api/meals", mealRoutes);
 
 app.get("/", (req, res) => {
   res.send(" Server is up and running");
